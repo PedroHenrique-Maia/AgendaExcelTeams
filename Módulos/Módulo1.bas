@@ -1,3 +1,4 @@
+Attribute VB_Name = "MÛdulo1"
 Option Explicit
 
 Sub CheckPDFGerado()
@@ -14,17 +15,17 @@ Sub CheckPDFGerado()
     Dim PrimeiraData As Date
     Dim i As Long
 
-    ' GARANTIA: Sempre aponta para a aba "Agenda", independente de onde o bot√£o for clicado
+    ' GARANTIA: Sempre aponta para a aba "Agenda"
     Set ws = ThisWorkbook.Sheets("Agenda")
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set arquivosPDF = CreateObject("Scripting.Dictionary")
 
-    ' Caminho padr√£o
-    pastaPadrao = "C:\Users\sidney.oliveira\OneDrive\Linx Implanta√ß√µes\Linx DMS - Apollo"
+    ' Caminho padr„o
+    pastaPadrao = "C:\Users\sidney.oliveira\OneDrive\Linx ImplantaÁıes\Linx DMS - Apollo"
 
     ' Abrir seletor de pasta
     Set dialogo = Application.FileDialog(msoFileDialogFolderPicker)
-    dialogo.Title = "Selecione a pasta onde est√£o os arquivos PDF"
+    dialogo.Title = "Selecione a pasta onde est„o os arquivos PDF"
     dialogo.InitialFileName = pastaPadrao
 
     If dialogo.Show <> -1 Then
@@ -40,7 +41,7 @@ Sub CheckPDFGerado()
         End If
     Next arquivo
 
-    ' Encontrar a primeira data v√°lida na coluna D
+    ' Encontrar a primeira data v·lida na coluna D
     ultimaLinha = ws.Cells(ws.Rows.Count, "D").End(xlUp).Row
     PrimeiraData = 0
     For i = 3 To ultimaLinha
@@ -69,7 +70,7 @@ Sub CheckPDFGerado()
     If faltando = "" Then
         MsgBox "Ok, todas as agendas (PDFs) foram geradas com sucesso!", vbInformation
     Else
-        MsgBox "As agendas abaixo n√£o foram criadas:" & vbNewLine & vbNewLine & faltando, vbExclamation
+        MsgBox "As agendas abaixo n„o foram criadas:" & vbNewLine & vbNewLine & faltando, vbExclamation
     End If
 End Sub
 
@@ -96,7 +97,7 @@ Sub CriarReunioesOutlook()
         Exit Sub
     End If
 
-    respostaUsuario = MsgBox("Deseja criar as agenda(s)?" & vbNewLine & " - Total: " & TotalEventos & " evento(s)", vbYesNo + vbQuestion, "Confirma√ß√£o")
+    respostaUsuario = MsgBox("Deseja criar as agenda(s)?" & vbNewLine & " - Total: " & TotalEventos & " evento(s)", vbYesNo + vbQuestion, "ConfirmaÁ„o")
     If respostaUsuario = vbNo Then Exit Sub
 
     Dim OutlookApp As Object, OutlookNamespace As Object
@@ -145,7 +146,7 @@ Sub CriarReunioesOutlook()
             Next ExistingAppointment
 
             If Conflict Then
-                If MsgBox("J√° existe um compromisso neste hor√°rio: " & ExistingAppointment.Subject & vbNewLine & "Deseja criar a reuni√£o mesmo assim?", vbYesNo + vbExclamation, "Conflito de Hor√°rio") = vbNo Then
+                If MsgBox("J· existe um compromisso neste hor·rio: " & ExistingAppointment.Subject & vbNewLine & "Deseja criar a reuni„o mesmo assim?", vbYesNo + vbExclamation, "Conflito de Hor·rio") = vbNo Then
                     GoTo NextRecord
                 End If
             End If
@@ -180,11 +181,11 @@ Sub CriarReunioesOutlook()
                 On Error GoTo 0
 
                 .Recipients.ResolveAll
-                .Display 
-                Application.Wait (Now + TimeValue("00:00:03")) 
+                .Display
+                Application.Wait (Now + TimeValue("00:00:02"))
                 
                 If .Recipients.Count > 0 Then
-                    .Send  
+                    .Send
                 Else
                     .Close 0
                 End If
@@ -197,7 +198,7 @@ Sub CriarReunioesOutlook()
 NextRecord:
     Next i
 
-    MsgBox "Processo conclu√≠do! Foram criadas " & CountMeetings & " agendas."
+    MsgBox "Processo concluÌdo! Foram criadas " & CountMeetings & " agendas."
 End Sub
 
 Sub VerificarAgendasCriadas()
@@ -259,7 +260,7 @@ Sub VerificarAgendasCriadas()
     Next i
 
     Dim mensagem As String
-    mensagem = "Total encontradas no Outlook: " & TotalEncontradas & vbNewLine & "Total n√£o encontradas: " & TotalNaoEncontradas
+    mensagem = "Total encontradas no Outlook: " & TotalEncontradas & vbNewLine & "Total n„o encontradas: " & TotalNaoEncontradas
     If TotalNaoEncontradas > 0 Then mensagem = mensagem & vbNewLine & vbNewLine & "Faltantes:" & vbNewLine & NaoEncontradas
     MsgBox mensagem, vbInformation, "Resumo"
 End Sub
@@ -291,7 +292,7 @@ Sub LinkReuniao()
         If Trim(ws.Range("O" & i).Value) <> "" Then TotalLinhas = TotalLinhas + 1
     Next i
 
-    If MsgBox("Deseja gerar o(s) link(s) da(s) reuni√µes?" & vbNewLine & "Total: " & TotalLinhas, vbYesNo + vbQuestion) = vbNo Then Exit Sub
+    If MsgBox("Deseja gerar o(s) link(s) da(s) reuniıes?" & vbNewLine & "Total: " & TotalLinhas, vbYesNo + vbQuestion) = vbNo Then Exit Sub
 
     Set OutlookApp = CreateObject("Outlook.Application")
     Set OutlookNamespace = OutlookApp.GetNamespace("MAPI")
@@ -335,9 +336,9 @@ Sub LinkReuniao()
             If Encontrado And LinkReuniao <> "" Then
                 ws.Range("V" & i).Value = LinkReuniao
             ElseIf Encontrado And LinkReuniao = "" Then
-                ws.Range("V" & i).Value = "Link n√£o gerado no Outlook (Aguarde e tente novamente)"
+                ws.Range("V" & i).Value = "Link n„o gerado no Outlook (Aguarde e tente novamente)"
             Else
-                ws.Range("V" & i).Value = "Agenda n√£o encontrada"
+                ws.Range("V" & i).Value = "Agenda n„o encontrada"
             End If
         End If
     Next i
@@ -349,7 +350,7 @@ Sub CancelarAgendasOutlook()
     Dim ws As Worksheet
     Dim LastRow As Long, i As Long, TotalParaCancelar As Long
     Dim OutlookApp As Object, OutlookNamespace As Object, CalendarFolder As Object
-    Dim FilteredItems As Object, Appointment As Object
+    Dim CalendarItems As Object, FilteredItems As Object, Appointment As Object
     Dim Titulo As String, DataHoraInicio As Date
     Dim Canceladas As Long, PrimeiraData As Date, Restriction As String
 
@@ -365,15 +366,23 @@ Sub CancelarAgendasOutlook()
         End If
     Next i
 
-    If TotalParaCancelar = 0 Then Exit Sub
+    If TotalParaCancelar = 0 Then
+        MsgBox "Nenhuma agenda marcada para cancelar (Coluna U = S).", vbInformation
+        Exit Sub
+    End If
+    
     If MsgBox("Deseja remover " & TotalParaCancelar & " agenda(s)?", vbYesNo + vbQuestion) = vbNo Then Exit Sub
 
     Set OutlookApp = CreateObject("Outlook.Application")
     Set OutlookNamespace = OutlookApp.GetNamespace("MAPI")
     Set CalendarFolder = OutlookNamespace.GetDefaultFolder(9)
     
+    Set CalendarItems = CalendarFolder.Items
+    CalendarItems.Sort "[Start]"
+    CalendarItems.IncludeRecurrences = True
+    
     Restriction = "[Start] >= '" & Format(PrimeiraData, "mm/dd/yyyy") & " 12:00 AM'"
-    Set FilteredItems = CalendarFolder.Items.Restrict(Restriction)
+    Set FilteredItems = CalendarItems.Restrict(Restriction)
 
     Canceladas = 0
 
@@ -394,5 +403,6 @@ Sub CancelarAgendasOutlook()
         End If
     Next i
 
-    MsgBox "Processo conclu√≠do! Total canceladas: " & Canceladas, vbInformation
+    MsgBox "Processo concluÌdo! Total canceladas: " & Canceladas, vbInformation
 End Sub
+
